@@ -18,6 +18,6 @@ To use W-orders, you need to install the following Python libraries:
    ```bash
    pip install selenium
 
-**Web Driver Manager**: to download automatically the web driver for firefox.
+- **Web Driver Manager**: to download automatically the web driver for firefox.
    ```bash
    pip install webdriver-manager
