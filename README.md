@@ -8,7 +8,10 @@ W-orders is a scraping service designed to assist automotive mechanical engineer
 
 ## Introduction
 
-W-orders provides a scraping solution tailored for accessing and retrieving data from the AutoCodes website. It aims to streamline the process of finding automotive repair information, thereby assisting mechanical engineers in their daily tasks.
+W-orders provides a scraping solution with Python tailored for accessing and retrieving data from the AutoCodes website. It aims to streamline the process of finding automotive repair information, thereby assisting mechanical engineers in their daily tasks.
+
+If you haven't installed Python yet, you can download it from [python.org/downloads](https://www.python.org/downloads/).
+
 
 ## Libraries to Install
 
