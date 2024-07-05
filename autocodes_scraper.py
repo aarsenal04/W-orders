@@ -9,12 +9,12 @@ from Logs.Logger import log_messages
 import logging
 import time
 
-class driverMitchell:
+class autocodes_driver:
     def __init__(self):
-        self.driver = webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install()))
+        self.driver = webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install())) # firefox web driver manager
         self.wait = WebDriverWait(self.driver, 20) # 20 seconds webdriver wait
 
-    def open_mitchell(self): # open AutoCodes on Firefox
+    def open_autocodes(self): # open AutoCodes on Firefox
         try:
             logging.info('Opening AutoCodes website on Firefox')
             self.driver.get("https://www.autocodes.com/")
@@ -42,10 +42,9 @@ class driverMitchell:
         except Exception as e:
             logging.error(f'Error while looking or clicking the Search Bar on Firefox: {str(e)}')
 
+Driver = autocodes_driver() # instance of the autocodes driver class
 
-Driver = driverMitchell() # instance of the driver mitchell class
-
-Driver.open_mitchell() # open AutoCodes on Firefox
+Driver.open_autocodes() # open AutoCodes on Firefox
 Driver.click_search_bar() # click search bar before writing the error code
 time.sleep(5) # wait 5 seconds to close the driver
 Driver.close_driver() # close firefox
