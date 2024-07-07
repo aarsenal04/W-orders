@@ -12,7 +12,6 @@ W-orders provides a scraping solution with Python tailored for accessing and ret
 
 If you haven't installed Python yet, you can download it from [python.org/downloads](https://www.python.org/downloads/).
 
-
 ## Libraries to Install
 
 To use W-orders, you need to install the following Python libraries:
@@ -24,3 +23,7 @@ To use W-orders, you need to install the following Python libraries:
 - **Web Driver Manager**: to download automatically the web driver for firefox.
    ```bash
    pip install webdriver-manager
+
+- **PySide6**: Python bindings for the Qt cross-platform application and UI framework.
+   ```bash
+   pip install PySide6
