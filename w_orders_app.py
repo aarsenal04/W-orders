@@ -1,88 +1,145 @@
 import sys
 from PySide6 import QtCore, QtWidgets, QtGui
+import os
+
+current_dir = os.getcwd()
 
 class W_orders(QtWidgets.QWidget):
 
     def __init__(self):
-
         super().__init__()
 
-        self.setWindowTitle("W-orders")  # App title
-        self.color_palette() # call the color_palette function
-        self.text_labels() # call the text_labels function
-        self.layout_window() # call the layout_window function
+        self.setWindowTitle("W-orders")
+        self.set_application_icon()
+        self.color_palette()
+        self.text_labels()
+        self.image_label()
+        self.layout_window()
+        self.set_styles()
 
-    def color_palette(self): # colors for the window
-        
-        palette = self.palette() # call the palette function
+    def set_application_icon(self):
+        logo_path = os.path.join(current_dir, "Images/logo.png")
 
-        palette.setColor(QtGui.QPalette.Window, QtGui.QColor(53, 53, 53))  # background color of the window
-        palette.setColor(QtGui.QPalette.WindowText, QtCore.Qt.white)  # text color for the window
+        logo = QtGui.QPixmap(logo_path)
+        icon_size = QtCore.QSize(32, 32)
+        logo = logo.scaled(icon_size, QtCore.Qt.KeepAspectRatio)
 
-        palette.setColor(QtGui.QPalette.Base, QtGui.QColor(15, 15, 15))  # background color of text entry 
-        palette.setColor(QtGui.QPalette.AlternateBase, QtGui.QColor(53, 53, 53))  # background color of the alternate base
+        app = QtWidgets.QApplication.instance()
+        app.setWindowIcon(QtGui.QIcon(logo))
 
-        palette.setColor(QtGui.QPalette.ToolTipBase, QtCore.Qt.white)  # tooltip background color
-        palette.setColor(QtGui.QPalette.ToolTipText, QtCore.Qt.white)  # tooltip text color
+    def color_palette(self):
+        palette = self.palette()
 
-        palette.setColor(QtGui.QPalette.Text, QtCore.Qt.white) # text color
-        palette.setColor(QtGui.QPalette.Button, QtGui.QColor(53, 53, 53))  # button background color
-        palette.setColor(QtGui.QPalette.ButtonText, QtCore.Qt.white)  # button text color
-
-        palette.setColor(QtGui.QPalette.BrightText, QtCore.Qt.red)  # text color for bright text (e.g. red for errors)
-        palette.setColor(QtGui.QPalette.Highlight, QtGui.QColor(142, 45, 197).lighter())  # color of the highlighted text
-        palette.setColor(QtGui.QPalette.HighlightedText, QtCore.Qt.black)  # text color of the highlighted text
+        palette.setColor(QtGui.QPalette.Window, QtGui.QColor(53, 53, 53))
+        palette.setColor(QtGui.QPalette.WindowText, QtCore.Qt.white)
+        palette.setColor(QtGui.QPalette.Base, QtGui.QColor(15, 15, 15))
+        palette.setColor(QtGui.QPalette.AlternateBase, QtGui.QColor(53, 53, 53))
+        palette.setColor(QtGui.QPalette.ToolTipBase, QtCore.Qt.white)
+        palette.setColor(QtGui.QPalette.ToolTipText, QtCore.Qt.white)
+        palette.setColor(QtGui.QPalette.Text, QtCore.Qt.white)
+        palette.setColor(QtGui.QPalette.Button, QtGui.QColor(53, 53, 53))
+        palette.setColor(QtGui.QPalette.ButtonText, QtCore.Qt.white)
+        palette.setColor(QtGui.QPalette.BrightText, QtCore.Qt.red)
+        palette.setColor(QtGui.QPalette.Highlight, QtGui.QColor(142, 45, 197).lighter())
+        palette.setColor(QtGui.QPalette.HighlightedText, QtCore.Qt.black)
 
         self.setPalette(palette)
 
-    def text_labels(self): # text labels for the window
+    def text_labels(self):
+        search_icon_path = os.path.join(current_dir, "Images/search-icon.png")
 
-        self.welcome_label = QtWidgets.QLabel("Welcome to W-orders") # welcome text label
-        self.auto_code_label = QtWidgets.QLabel("Autocode:") # text label for the codes
-        self.car_brand_label = QtWidgets.QLabel("Car's make:") # text label for the car brand
+        self.welcome_label = QtWidgets.QLabel("Welcome to W-orders!")
+        self.subtitle_label = QtWidgets.QLabel("OBDII Codes Definitions, Diagnostic, Description & Repair Information")
+        
+        # need to fix the font size later
+        self.auto_code_label = QtWidgets.QLabel("Autocode:") 
+        self.car_brand_label = QtWidgets.QLabel("Car's make:")
 
-        self.welcome_label.setAlignment(QtCore.Qt.AlignCenter) # center the welcome text label
-        self.auto_code_entry = QtWidgets.QLineEdit() # text entry for the codes
-        self.car_brand_entry = QtWidgets.QLineEdit() # text entry for the car brand
+        self.welcome_label.setAlignment(QtCore.Qt.AlignCenter)
+        self.subtitle_label.setAlignment(QtCore.Qt.AlignCenter)
 
-        self.send_button = QtWidgets.QPushButton("Search") # button to send the data
-        self.send_button.clicked.connect(self.send_data) # connect the button to the send_data
+        self.welcome_label.setStyleSheet("font-size: 18px; font-weight: bold; color: white;")
+        self.subtitle_label.setStyleSheet("font-size: 16px; font-weight: bold; color: white;")
+        
+        self.auto_code_entry = QtWidgets.QLineEdit()
+        self.car_brand_entry = QtWidgets.QLineEdit()
 
-    def layout_window(self): # layout for the window
+        self.send_button = QtWidgets.QPushButton("Search")
+        self.send_button.setIcon(QtGui.QIcon(search_icon_path))
+        self.send_button.clicked.connect(self.send_data)
+    
+    def image_label(self):
+        image_path = os.path.join(current_dir, 'Images', 'autocodes.png')
+        self.image_label = QtWidgets.QLabel()
+        self.image = QtGui.QPixmap(image_path)
+        self.image_label.setPixmap(self.image.scaled(150, 150, QtCore.Qt.KeepAspectRatio))
+        self.image_label.setAlignment(QtCore.Qt.AlignCenter)
 
-        self.layout = QtWidgets.QVBoxLayout(self) # layout for the window
+    def layout_window(self):
+        self.layout = QtWidgets.QVBoxLayout(self)
 
-        # Layout for the welcome text
         welcome_layout = QtWidgets.QHBoxLayout()
         welcome_layout.addWidget(self.welcome_label)
 
-        # Layout for auto code
+        subtitle_layout = QtWidgets.QHBoxLayout()
+        subtitle_layout.addWidget(self.subtitle_label)
+
         auto_code_layout = QtWidgets.QHBoxLayout()
         auto_code_layout.addWidget(self.auto_code_label)
         auto_code_layout.addWidget(self.auto_code_entry)
 
-        # Layout for car brand
         car_brand_layout = QtWidgets.QHBoxLayout()
         car_brand_layout.addWidget(self.car_brand_label)
         car_brand_layout.addWidget(self.car_brand_entry)
 
-        # Add the layouts to the main layout
         self.layout.addLayout(welcome_layout)
+        self.layout.addSpacing(10)
+        self.layout.addWidget(self.image_label)
+        self.layout.addSpacing(10)
+        self.layout.addLayout(subtitle_layout)
+        self.layout.addSpacing(20)
         self.layout.addLayout(auto_code_layout)
+        self.layout.addSpacing(10)
         self.layout.addLayout(car_brand_layout)
-        self.layout.addWidget(self.send_button) # add the send button to the layout
+        self.layout.addSpacing(20)
+        self.layout.addWidget(self.send_button)
+
+    def set_styles(self):
+        self.setStyleSheet("""
+            QPushButton {
+                background-color: #8E2DC5;
+                color: white;
+                font-size: 14px;
+                border-radius: 5px;
+                padding: 10px;
+            }
+            QPushButton:hover {
+                background-color: #7B24B1;
+            }
+            QLineEdit {
+                background-color: #353535;
+                color: white;
+                padding: 5px;
+                border: 1px solid #5A5A5A;
+                border-radius: 3px;
+            }
+            QLabel {
+                color: white;
+                font-size: 14px;
+            }
+        """)
 
     @QtCore.Slot()
-    def send_data(self): # function to send the data to the console when the button is clicked
-        auto_code = self.auto_code_entry.text() # get the auto code
-        car_brand = self.car_brand_entry.text() # get the car brand
-        print(f"Auto Code: {auto_code}, Car Brand: {car_brand}")  # Aquí puedes procesar los datos como desees
+    def send_data(self):
+        auto_code = self.auto_code_entry.text()
+        car_brand = self.car_brand_entry.text()
+        print(f"Auto Code: {auto_code}, Car Brand: {car_brand}")
 
-if __name__ == "__main__": # run the app
+if __name__ == "__main__":
     app = QtWidgets.QApplication([])
 
     widget = W_orders()
-    widget.resize(400, 300) # window size (width, height)
+    widget.resize(500, 600)
     widget.show()
 
     sys.exit(app.exec())
