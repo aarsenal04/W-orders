@@ -30,7 +30,7 @@ Examples:
 
 # Set logging configuration to display messages with severity level 'DEBUG' or higher
 logging.basicConfig(level=10,
-                    format='%(asctime)s - %(threadName)s - %(processName)s - %(levelname)s - %(message)s',
+                    format='%(asctime)s - %(levelname)s - %(message)s',
                     filename=log_filename,
                     filemode='a')
 
